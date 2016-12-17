@@ -16,7 +16,6 @@ saveNews(){
    success : function(msg){
    /*msg represents JSON data of news headlines sent back by external API*/
     console.log('saved');
-
    },
    error: function(err){
      console.log('error');

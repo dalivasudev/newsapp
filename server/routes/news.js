@@ -21,6 +21,7 @@ app.post('/',function(req,res) {
     url : req.body.url,
     description : req.body.description,
     publishedAt : req.body.publishedAt,
+    urlToImage : req.body.urlToImage,
     comments : req.body.comments
   });
 
@@ -45,7 +46,7 @@ app.get('/',function(req,res) {
   // res.send('view saved');
   news.find({},function(err, findNews){
     if (err) throw err;
-    res.send('All news '+findNews);
+    res.send(findNews);
   });
 });
 

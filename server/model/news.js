@@ -7,6 +7,7 @@ var newsSchema = new Schema({
   description : String,
   url : String,
   publishedAt : String,
+  urlToImage : String,
   Comments : String
 });
 

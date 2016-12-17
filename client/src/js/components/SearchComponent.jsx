@@ -7,7 +7,8 @@ export default class SearchComponent extends React.Component {
   }
 
   searchClick(){
-    this.props.sendSearchValue(document.getElementById('searchText').value);
+    var search = this.refs.searchText.value;
+    this.props.sendSearchValue(search);
   }
 
   render(){
@@ -17,7 +18,7 @@ export default class SearchComponent extends React.Component {
           <div className = "container">
             <h3 className = "nav navbar-nav pull-left">View </h3>
             <div className = "nav navbar navbar-nav pull-right">
-              <input type = "text" placeholder = "Search" id = "searchText" />
+              <input type = "text" placeholder = "Search" ref = "searchText" />
               <input type = "submit" value = "Search" id = "searchBtn" onClick = {this.searchClick} />
             </div>
           </div>

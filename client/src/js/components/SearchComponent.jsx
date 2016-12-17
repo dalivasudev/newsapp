@@ -12,11 +12,14 @@ export default class SearchComponent extends React.Component {
 
   render(){
     return(
-      <div class = "container">
-        <div class = "navbar navbar-fixed-top">
-          <div class = "navbar navbar-nav pull-right">
-            <input type = "text" placeholder = "Search" id = "searchText" />
-            <input type = "submit" value = "Search" id = "searchBtn" onClick = {this.searchClick} />
+      <div className = "container">
+        <div className = "navbar">
+          <div className = "container">
+            <h3 className = "nav navbar-nav pull-left">View </h3>
+            <div className = "nav navbar navbar-nav pull-right">
+              <input type = "text" placeholder = "Search" id = "searchText" />
+              <input type = "submit" value = "Search" id = "searchBtn" onClick = {this.searchClick} />
+            </div>
           </div>
         </div>
       </div>

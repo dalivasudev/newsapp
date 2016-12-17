@@ -1,43 +1,36 @@
 import 'file?name=[name].[ext]!../index.html';
+import 'file?name=[name].[ext]!../css/styles.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SearchComponent from './components/SearchComponent'
-import ComponentManager from './components/ComponentManager'
+var {browserHistory, Route, Router, IndexRoute}
+  = require('react-router');
 
-class MainWindow extends React.Component {
-  constructor(){
-    super();
-    this.state = {newsArr:[]};
-    this.fetchNewsFromExternalAPI = this.fetchNewsFromExternalAPI.bind(this);
-  }
+import About from './components/About.jsx';
+import Home from './components/MainComponent.jsx';
+import Contact from './components/Contact.jsx';
+import NavBar from './components/NavBar.jsx';
+import favNews from './components/favNews.jsx'
+class MainComponent extends React.Component{
 
-  fetchNewsFromExternalAPI(provider) {
-    var that = this;
-     $.ajax({
-      url: "https://newsapi.org/v1/articles?source="+provider+"&apiKey=c37357c46e3441b29e0c4c976e74299c",
-      type: "GET",
-      dataType: 'JSON',
-      success : function(msg){
-      /*msg represents JSON data of news headlines sent back by external API*/
-      var arr = msg.articles;
-      that.setState({newsArr:arr});
-      },
-      error: function(err){
-        console.log('error');
-      }
-  });
-  }
+render(){
 
-  render(){
-    return(
-      <div>
-        <SearchComponent sendSearchValue = {this.fetchNewsFromExternalAPI} />
-        <ComponentManager newsArrRef={this.state.newsArr} />
-      </div>
-    )
-  }
-}
-
-ReactDOM.render(
-  <MainWindow/>,document.getElementById('content')
+return (
+<div>
+<NavBar/>
+  <br/><br/><br/><br/>
+    {this.props.children}
+</div>
 )
+}
+}
+ReactDOM.render(
+<Router history={browserHistory}>
+             <Route path="/" component={MainComponent} >
+              <IndexRoute component = {Home} />
+              <Route path="/favNews" component={favNews} />
+              <Route path="/home" component={Home}/>
+              <Route path="/about" component={About}/>
+              <Route path="/contact" component={Contact}/>
+            </Route>
+
+</Router>,document.getElementById('content'));

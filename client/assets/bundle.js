@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a7e90680e8565e685a7f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "65bd0269c10584c1545d"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -13550,7 +13550,7 @@
 	        null,
 	        React.createElement(
 	          'nav',
-	          { className: 'navbar navbar-default' },
+	          { className: 'navbar navbar-default navbar-fixed-top' },
 	          React.createElement(
 	            'div',
 	            { className: 'container-fluid' },
@@ -13644,11 +13644,10 @@
 	  _createClass(NewsBox, [{
 	    key: 'saveNews',
 	    value: function saveNews() {
-	      console.log('inside saved');
+	      console.log('inside saved' + this.props.item.comments);
 	      $.ajax({
 	        url: "http://localhost:8085/news",
 	        type: "POST",
-	        dataType: 'JSON',
 	        data: this.props.item,
 	        success: function success(msg) {
 	          /*msg represents JSON data of news headlines sent back by external API*/
@@ -13672,12 +13671,12 @@
 	          { className: 'row' },
 	          _react2.default.createElement(
 	            'article',
-	            { className: 'col-sm-4' },
-	            _react2.default.createElement('img', { src: this.props.item.urlToImage, height: '200', width: '300' })
+	            { className: 'col-sm-5' },
+	            _react2.default.createElement('img', { src: this.props.item.urlToImage, height: '200', width: '300', alt: 'sorry' })
 	          ),
 	          _react2.default.createElement(
 	            'article',
-	            { className: 'col-sm-8' },
+	            { className: 'col-sm-7' },
 	            _react2.default.createElement(
 	              'h3',
 	              null,
@@ -13696,6 +13695,11 @@
 	              'p',
 	              null,
 	              this.props.item.description
+	            ),
+	            _react2.default.createElement(
+	              'a',
+	              { href: this.props.item.url, target: '_blank' },
+	              '...more '
 	            )
 	          )
 	        ),
@@ -13704,7 +13708,7 @@
 	          { className: 'row' },
 	          _react2.default.createElement(
 	            'article',
-	            { className: 'col-sm-6' },
+	            { className: 'col-sm-5 pull-right' },
 	            _react2.default.createElement('input', { type: 'button', value: 'save', onClick: this.saveNews })
 	          )
 	        )
@@ -13770,17 +13774,14 @@
 	          { className: "navbar" },
 	          _react2.default.createElement(
 	            "div",
-	            { className: "container" },
-	            _react2.default.createElement(
-	              "h3",
-	              { className: "nav navbar-nav pull-left" },
-	              "View "
-	            ),
+	            { className: "jumbotron" },
 	            _react2.default.createElement(
 	              "div",
-	              { className: "nav navbar navbar-nav pull-right" },
-	              _react2.default.createElement("input", { type: "text", placeholder: "Search", ref: "searchText" }),
-	              _react2.default.createElement("input", { type: "submit", value: "Search", id: "searchBtn", onClick: this.searchClick })
+	              { className: "row" },
+	              _react2.default.createElement("input", { type: "text", placeholder: "Search news provider here .. ", ref: "searchText", className: "col-md-12" }),
+	              _react2.default.createElement("br", null),
+	              _react2.default.createElement("br", null),
+	              _react2.default.createElement("input", { type: "submit", value: "Search News", id: "searchBtn", onClick: this.searchClick, className: "btn btn-default btn-primary center-block" })
 	            )
 	          )
 	        )
@@ -13823,14 +13824,56 @@
 	  function ViewnewsComponent() {
 	    _classCallCheck(this, ViewnewsComponent);
 	
-	    return _possibleConstructorReturn(this, (ViewnewsComponent.__proto__ || Object.getPrototypeOf(ViewnewsComponent)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (ViewnewsComponent.__proto__ || Object.getPrototypeOf(ViewnewsComponent)).call(this));
+	
+	    _this.deleteNews = _this.deleteNews.bind(_this);
+	    _this.updateNews = _this.updateNews.bind(_this);
+	    return _this;
 	  }
 	
 	  _createClass(ViewnewsComponent, [{
+	    key: "deleteNews",
+	    value: function deleteNews() {
+	      var that = this;
+	      $.ajax({
+	        url: "http://localhost:8085/news",
+	        type: "DELETE",
+	        data: that.props.view,
+	        success: function success(msg) {
+	          /*msg represents JSON data of news headlines sent back by external API*/
+	          console.log('delete success');
+	          console.log(msg);
+	          that.props.fxn(that.props.view);
+	        },
+	        error: function error(err) {
+	          console.log('error in delete');
+	          console.log(err);
+	        }
+	      });
+	    }
+	  }, {
+	    key: "updateNews",
+	    value: function updateNews() {
+	      console.log('inside update');
+	
+	      var that = this;
+	      $.ajax({
+	        url: "http://localhost:8085/news/update",
+	        type: 'PUT',
+	        datatype: 'JSON',
+	        data: that.props.view.comments,
+	        success: function success(res) {
+	          console.log("Updated");
+	          that.props.fxn(that.props.view);
+	        },
+	        error: function error() {
+	          console.log("Error in update opration");
+	        }
+	      });
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
-	      console.log("view new");
-	      console.log(this.props.view);
 	      return _react2.default.createElement(
 	        "div",
 	        null,
@@ -13843,7 +13886,7 @@
 	            _react2.default.createElement(
 	              "article",
 	              { className: "col-sm-4" },
-	              _react2.default.createElement("img", { src: this.props.item.urlToImage, height: "200", width: "300" })
+	              _react2.default.createElement("img", { src: this.props.view.urlToImage, height: "200", width: "300", alt: "sorry" })
 	            ),
 	            _react2.default.createElement(
 	              "article",
@@ -13852,20 +13895,25 @@
 	                "h3",
 	                null,
 	                " Title: ",
-	                this.props.item.title,
+	                this.props.view.title,
 	                " "
 	              ),
 	              _react2.default.createElement(
 	                "h6",
 	                null,
 	                "Published At : ",
-	                this.props.item.publishedAt,
+	                this.props.view.publishedAt,
 	                " "
 	              ),
 	              _react2.default.createElement(
 	                "p",
 	                null,
-	                this.props.item.description
+	                this.props.view.description
+	              ),
+	              _react2.default.createElement(
+	                "a",
+	                { href: this.props.view.url, target: "_blank" },
+	                "...more "
 	              )
 	            )
 	          ),
@@ -13874,9 +13922,14 @@
 	            { className: "row" },
 	            _react2.default.createElement(
 	              "article",
-	              { className: "col-sm-6" },
-	              _react2.default.createElement("input", { type: "button", value: "Update", onClick: this.update }),
-	              _react2.default.createElement("input", { type: "button", value: "Delete", onClick: this.delete })
+	              { className: "col-sm-6 pull-right" },
+	              _react2.default.createElement(
+	                "textarea",
+	                { rows: "4", cols: "30", id: "commentArea" },
+	                this.props.view.comments
+	              ),
+	              _react2.default.createElement("input", { type: "button", value: "Update", onClick: this.updateNews }),
+	              _react2.default.createElement("input", { type: "button", value: "Delete", onClick: this.deleteNews })
 	            )
 	          )
 	        )
@@ -13924,10 +13977,22 @@
 	    var _this = _possibleConstructorReturn(this, (favNews.__proto__ || Object.getPrototypeOf(favNews)).call(this));
 	
 	    _this.state = { viewnew: [] };
+	    _this.refreshNewsArr = _this.refreshNewsArr.bind(_this);
 	    return _this;
 	  }
 	
 	  _createClass(favNews, [{
+	    key: 'refreshNewsArr',
+	    value: function refreshNewsArr(item) {
+	      var arr = this.state.viewnew;
+	      var findIndex = arr.findIndex(function (x) {
+	        return x._id == item._id;
+	      });
+	      console.log("index is " + findIndex);
+	      arr.splice(findIndex, 1);
+	      this.setState({ viewnew: arr });
+	    }
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var that = this;
@@ -13949,8 +14014,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log("FAV VIEW");
-	      console.log(this.state.viewnew);
+	      var that = this;
 	      return React.createElement(
 	        'div',
 	        { className: 'container-fluid' },
@@ -13961,20 +14025,16 @@
 	            'div',
 	            { className: 'col-md-12' },
 	            React.createElement(
-	              'div',
-	              { className: 'jumbotron' },
-	              React.createElement(
-	                'h2',
-	                null,
-	                'Saved News'
-	              ),
-	              React.createElement(
-	                'p',
-	                null,
-	                this.state.viewnew.map(function (newsobj) {
-	                  return React.createElement(_ViewnewsComponent2.default, { view: newsobj });
-	                })
-	              )
+	              'h2',
+	              null,
+	              'Saved News'
+	            ),
+	            React.createElement(
+	              'p',
+	              null,
+	              this.state.viewnew.map(function (newsobj) {
+	                return React.createElement(_ViewnewsComponent2.default, { view: newsobj, fxn: that.refreshNewsArr });
+	              })
 	            )
 	          )
 	        )
@@ -28863,6 +28923,7 @@
 	
 	var _require = __webpack_require__(107),
 	    browserHistory = _require.browserHistory,
+	    hashHistory = _require.hashHistory,
 	    Route = _require.Route,
 	    Router = _require.Router,
 	    IndexRoute = _require.IndexRoute;
@@ -28898,7 +28959,7 @@
 	
 	_reactDom2.default.render(_react2.default.createElement(
 	  Router,
-	  { history: browserHistory },
+	  { history: hashHistory },
 	  _react2.default.createElement(
 	    Route,
 	    { path: '/', component: MainComponent },

@@ -15,11 +15,11 @@ export default class SearchComponent extends React.Component {
     return(
       <div className = "container">
         <div className = "navbar">
-          <div className = "container">
-            <h3 className = "nav navbar-nav pull-left">View </h3>
-            <div className = "nav navbar navbar-nav pull-right">
-              <input type = "text" placeholder = "Search" ref = "searchText" />
-              <input type = "submit" value = "Search" id = "searchBtn" onClick = {this.searchClick} />
+          <div className = "jumbotron">
+            <div className = "row">
+              <input type = "text" placeholder = "Search news provider here .. " ref = "searchText" className = "col-md-12"/>
+              <br /><br />
+              <input type = "submit" value = "Search News" id = "searchBtn" onClick = {this.searchClick} className = "btn btn-default btn-primary center-block"/>
             </div>
           </div>
         </div>

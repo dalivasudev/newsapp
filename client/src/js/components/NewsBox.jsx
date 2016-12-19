@@ -7,21 +7,22 @@ constructor(){
 }
 
 saveNews(){
-  console.log('inside saved');
+  console.log('inside saved '+this.props.item.comments);
   $.ajax({
    url: "http://localhost:8085/news",
    type: "POST",
-   dataType: 'JSON',
    data : this.props.item,
    success : function(msg){
    /*msg represents JSON data of news headlines sent back by external API*/
     console.log('saved');
+    alert("news saved successfully");
    },
    error: function(err){
      console.log('error');
+
    }
 });
-alert("news saved successfully");
+
 }
 
 render(){
@@ -30,18 +31,19 @@ render(){
 
     <section className = "jumbotron" >
       <section className = "row">
-        <article className = "col-sm-4">
-          <img src={this.props.item.urlToImage} height = "200" width = "300" />
+        <article className = "col-sm-5">
+          <img src={this.props.item.urlToImage} height = "200" width = "300" alt="sorry"/>
         </article>
-        <article className = "col-sm-8">
+          <article className = "col-sm-7">
           <h3> Title: {this.props.item.title} </h3>
           <h6>Published At : {this.props.item.publishedAt} </h6>
           <p>{this.props.item.description}</p>
+          <a href = {this.props.item.url} target = "_blank" >...more </a>
         </article>
       </section>
       <section className= "row">
 
-        <article className = "col-sm-6">
+        <article className = "col-sm-5 pull-right" >
           <input type = "button" value = "save" onClick = {this.saveNews} />
         </article>
       </section>

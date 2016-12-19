@@ -2,7 +2,7 @@ import 'file?name=[name].[ext]!../index.html';
 import 'file?name=[name].[ext]!../css/styles.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-var {browserHistory, Route, Router, IndexRoute}
+var {browserHistory,hashHistory, Route, Router, IndexRoute}
   = require('react-router');
 
 import About from './components/About.jsx';
@@ -24,7 +24,7 @@ return (
 }
 }
 ReactDOM.render(
-<Router history={browserHistory}>
+<Router history={hashHistory}>
              <Route path="/" component={MainComponent} >
               <IndexRoute component = {Home} />
               <Route path="/favNews" component={favNews} />

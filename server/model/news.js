@@ -8,7 +8,7 @@ var newsSchema = new Schema({
   url : String,
   publishedAt : String,
   urlToImage : String,
-  Comments : String
+  comments : String
 });
 
 var news = mongoose.model('news', newsSchema);

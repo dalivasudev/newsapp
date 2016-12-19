@@ -22,7 +22,7 @@ app.post('/',function(req,res) {
     description : req.body.description,
     publishedAt : req.body.publishedAt,
     urlToImage : req.body.urlToImage,
-    comments : req.body.comments
+    comments : "Comments"
   });
 
   saveNews.save(function(err){
@@ -34,10 +34,10 @@ app.post('/',function(req,res) {
 //delete
 app.delete('/',function(req,res) {
   news.remove( {
-    title : req.body.title
+    url : req.body.url
   }, function(err){
     if (err) throw err;
-    res.send('Deleted');
+    res.send('Deleted'+req.body.url);
   });
 });
 
@@ -52,9 +52,10 @@ app.get('/',function(req,res) {
 
 //update
 app.put('/update',function(req,res) {
-  news.findOneAndUpdate({title: req.body.title},{comments: req.body.comments}, function(err,newsFind){
+  news.findOneAndUpdate({title: req.body.url},{comments: req.body.comments}, function(err,newsFind){
+    console.log(req.body.url, req.body.comments);
     if(err) throw error;
-    res.send("NEWS UPDATED "+newsFind);
+    res.send(newsFind);
   });
 
   /*

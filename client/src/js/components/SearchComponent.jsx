@@ -17,7 +17,10 @@ export default class SearchComponent extends React.Component {
         <div className = "navbar">
           <div className = "jumbotron">
             <div className = "row">
-              <input type = "text" placeholder = "Search news provider here .. " ref = "searchText" className = "col-md-12"/>
+              <h2 className = "text-center"> Welcome </h2>
+              <h3 className = "text-center"> Search news by provider </h3>
+              <br />
+              <input type = "text" className = "form-control input-lg" placeholder = "Search news provider here .. " ref = "searchText" />
               <br /><br />
               <input type = "submit" value = "Search News" id = "searchBtn" onClick = {this.searchClick} className = "btn btn-default btn-primary center-block"/>
             </div>

@@ -3,8 +3,10 @@ import React from 'react';
 export default class ViewnewsComponent extends React.Component {
   constructor(){
     super();
+    this.state = {comments :"Default"};
     this.deleteNews = this.deleteNews.bind(this);
     this.updateNews = this.updateNews.bind(this);
+    this.check = this.check.bind(this);
   }
 
   deleteNews(){
@@ -24,27 +26,30 @@ export default class ViewnewsComponent extends React.Component {
     console.log(err);
   }
   });
-
   }
+
+check(event){
+  var val = event.target.value;
+  console.log('val '+val);
+  this.setState({comments:val});
+  console.log("State "+this.state.comments);
+}
 
   updateNews(){
     console.log('inside update');
-  
     var that = this;
     $.ajax({
       url: "http://localhost:8085/news/update",
       type: 'PUT',
       datatype: 'JSON',
-      data:that.props.view.comments,
+      data:'url='+this.props.view.url+'&comments='+this.state.comments,
       success: function(res) {
         console.log("Updated");
-        that.props.fxn(that.props.view);
       },
       error: function() {
         console.log("Error in update opration");
       }
     });
-
   }
 
 
@@ -66,9 +71,9 @@ export default class ViewnewsComponent extends React.Component {
 
         <section className= "row">
           <article className = "col-sm-6 pull-right">
-            <textarea rows = "4" cols = "30" id = "commentArea">{this.props.view.comments}</textarea>
-            <input type = "button" value = "Update" onClick = {this.updateNews} />
-            <input type = "button" value = "Delete" onClick = {this.deleteNews} />
+            <textarea rows = "4" cols = "30" onChange = {this.check}>{this.props.view.comments}</textarea>
+            <input type = "button" value = "Update" onClick = {this.updateNews} className = "btn btn-default btn-primary"/>
+            <input type = "button" value = "Delete" onClick = {this.deleteNews} className = "btn btn-default btn-primary"/>
           </article>
         </section>
       </section>

@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "65bd0269c10584c1545d"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "f47c8b416b01c981f3c2"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -13644,7 +13644,7 @@
 	  _createClass(NewsBox, [{
 	    key: 'saveNews',
 	    value: function saveNews() {
-	      console.log('inside saved' + this.props.item.comments);
+	      console.log('inside saved ' + this.props.item.comments);
 	      $.ajax({
 	        url: "http://localhost:8085/news",
 	        type: "POST",
@@ -13652,12 +13652,12 @@
 	        success: function success(msg) {
 	          /*msg represents JSON data of news headlines sent back by external API*/
 	          console.log('saved');
+	          alert("news saved successfully");
 	        },
 	        error: function error(err) {
 	          console.log('error');
 	        }
 	      });
-	      alert("news saved successfully");
 	    }
 	  }, {
 	    key: 'render',
@@ -13826,8 +13826,10 @@
 	
 	    var _this = _possibleConstructorReturn(this, (ViewnewsComponent.__proto__ || Object.getPrototypeOf(ViewnewsComponent)).call(this));
 	
+	    _this.state = { comments: "Default" };
 	    _this.deleteNews = _this.deleteNews.bind(_this);
 	    _this.updateNews = _this.updateNews.bind(_this);
+	    _this.check = _this.check.bind(_this);
 	    return _this;
 	  }
 	
@@ -13852,19 +13854,26 @@
 	      });
 	    }
 	  }, {
+	    key: "check",
+	    value: function check(event) {
+	      var val = event.target.value;
+	      console.log('val ' + val);
+	      this.setState({ comments: val });
+	      console.log("State " + this.state.comments);
+	    }
+	  }, {
 	    key: "updateNews",
 	    value: function updateNews() {
 	      console.log('inside update');
-	
+	      console.log(this.state.comments + ' updated');
 	      var that = this;
 	      $.ajax({
 	        url: "http://localhost:8085/news/update",
 	        type: 'PUT',
 	        datatype: 'JSON',
-	        data: that.props.view.comments,
+	        data: 'Title=' + this.props.view.url + '&comments=' + this.state.comments,
 	        success: function success(res) {
 	          console.log("Updated");
-	          that.props.fxn(that.props.view);
 	        },
 	        error: function error() {
 	          console.log("Error in update opration");
@@ -13925,11 +13934,11 @@
 	              { className: "col-sm-6 pull-right" },
 	              _react2.default.createElement(
 	                "textarea",
-	                { rows: "4", cols: "30", id: "commentArea" },
+	                { rows: "4", cols: "30", onChange: this.check },
 	                this.props.view.comments
 	              ),
-	              _react2.default.createElement("input", { type: "button", value: "Update", onClick: this.updateNews }),
-	              _react2.default.createElement("input", { type: "button", value: "Delete", onClick: this.deleteNews })
+	              _react2.default.createElement("input", { type: "button", value: "Update", onClick: this.updateNews, className: "btn btn-default btn-primary" }),
+	              _react2.default.createElement("input", { type: "button", value: "Delete", onClick: this.deleteNews, className: "btn btn-default btn-primary" })
 	            )
 	          )
 	        )

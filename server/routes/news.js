@@ -52,7 +52,7 @@ app.get('/',function(req,res) {
 
 //update
 app.put('/update',function(req,res) {
-  news.findOneAndUpdate({title: req.body.url},{comments: req.body.comments}, function(err,newsFind){
+  news.findOneAndUpdate({url: req.body.url},{comments: req.body.comments}, function(err,newsFind){
     console.log(req.body.url, req.body.comments);
     if(err) throw error;
     res.send(newsFind);

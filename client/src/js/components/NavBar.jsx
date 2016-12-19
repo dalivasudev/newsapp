@@ -5,7 +5,7 @@ export default class NavBar extends React.Component{
 render() {
  return(
  <div>
-   <nav className="navbar navbar-default navbar-fixed-top">
+   <nav className="navbar navbar-fixed-top navbar-inverse">
      <div className="container-fluid">
        <ul className="nav navbar-nav">
            <li><Link to="/home">Home</Link></li>

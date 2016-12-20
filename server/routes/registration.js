@@ -12,19 +12,22 @@ var User = require('../model/users');
 // 	"email" : "dali@gmail.com",
 // 	"password" : "dali"
 // }
-router.post('/',function(req,res,next) {
+
+router.post('/regis',function(req,res,next) {
 
   var regisUser = new User({
     username : req.body.username,
     email : req.body.email,
     age : req.body.age,
-    password : req.body.password,
+    password : req.body.password
   });
   regisUser.save(function(err){
-    if(err) throw err;
-    res.send('User saved successfully');
+    if(err) {
+      console.log(err);
+      res.send('Username already exists');
+    }
+    else {
+      res.send('User saved successfully');}
   });
-
 });
-
 module.exports = router;

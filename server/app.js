@@ -4,6 +4,40 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var User = require('./model/users.js');
+var app = express();
+//passport
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var connectflash=require('connect-flash');
+
+
+
+passport.serializeUser(function(user, done) {
+  console.log("Serial");
+done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  console.log("Deserilaizew");
+User.findById(id, function (err, user) {
+  console.log("inside Deserialize "+user);
+  done(err, user);
+});
+});
+
+
+passport.use(new LocalStrategy(
+function(username, password, done) {
+  User.findOne({ username: username ,password:password}, function (err, user) {
+    if (err) { return done(err); }
+    if (!user) { return done(null, false); }
+  //  if (!users.verifyPassword(password)) { return done(null, false); }
+    return done(null, user);
+  });
+}
+));
+
 
 var index = require('./routes/index');
 //login
@@ -20,7 +54,7 @@ var webpack = require("webpack");
 var webpackConfig = require("../webpack.config");
 var webpackHotMiddleware = require('webpack-hot-middleware');
 
-var app = express();
+
 var compiler = webpack(webpackConfig);
 
 
@@ -52,6 +86,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(require('express-session')({ secret: 'accesskey'}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(connectflash());
+
 
 app.use('/', index);
 app.use('/users', users);

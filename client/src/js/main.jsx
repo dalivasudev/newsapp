@@ -14,21 +14,19 @@ import login from './components/login.jsx';
 
 class MainComponent extends React.Component{
 
-
-
 render(){
 
-return (
-<div id="main">
-<NavBar/>
-  <br/><br/><br/><br/>
-    {this.props.children}
-</div>
-)
-}
+  return (
+  <div id="main">
+  <NavBar/>
+    <br/><br/><br/><br/>
+      {this.props.children}
+  </div>
+  )
+  }
 }
 ReactDOM.render(
-<Router history={hashHistory}>
+<Router history={browserHistory}>
              <Route path="/" component={MainComponent} >
               <IndexRoute component = {login} />
               <Route path="/favNews" component={favNews} />

@@ -1,19 +1,34 @@
 var express = require('express');
 var router = express.Router();
-//var User = require('./model/users');
+var passport=require('passport');
+var Strategy=require('passport-local').Strategy;
+var connectflash=require('connect-flash');
+var User = require('../model/users.js');
 
 // localhost:8080/users?id=dali&pass=dali
 
-router.post('/', function(req, res) {
+router.post('/save',function(req,res)
+{
 
+var newusers=new User();
+ newusers.username=req.body.username;
+ newusers.password=req.body.password;
 
-    id = req.query.id;
-    pass =  req.query.pass;
-  
-// loginUser.save(function(err){
-//     if(err) throw err;
-//     res.send('User saved successfully');
-//   });
+newusers.save(function(err){
+  if(err) res.send("error :  "+err);
+  res.send("inserted");
 });
+
+});
+
+router.post('/login',
+ passport.authenticate('local', { failureRedirect: '/users/login' }),
+ function(req, res) {
+   console.log('Hello');
+   res.send('welcome to login');
+ });
+
+
+
 
 module.exports = router;

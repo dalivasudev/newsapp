@@ -15,13 +15,11 @@ var User = require('../model/users');
 router.post('/',function(req,res,next) {
 
   var regisUser = new User({
-    firstname : req.body.fname,
-    lastname : req.body.lname,
+    username : req.body.username,
     email : req.body.email,
     age : req.body.age,
-    password : req.body.pass,
+    password : req.body.password,
   });
-
   regisUser.save(function(err){
     if(err) throw err;
     res.send('User saved successfully');
